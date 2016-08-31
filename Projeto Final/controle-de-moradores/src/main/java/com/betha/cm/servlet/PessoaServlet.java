@@ -28,7 +28,7 @@ public class PessoaServlet extends HttpServlet {
                 pessoa.setId(Utils.parseLong(request.getParameter("id")));
                 writer.append(Utils.getJson(dao.buscar(pessoa)));
             } else {
-                writer.append(Utils.convertListToJson(dao.buscarTodos(pessoa, request.getParameter("filter"))));
+                writer.append(Utils.convertListToJson(dao.buscarTodos(pessoa, dao.getWhere(pessoa, Utils.getParameterMap(request)))));
             }
         } catch (Exception ex) {
             Logger.getLogger(PessoaServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -114,4 +114,10 @@ public class PropriedadeObjeto {
     public String getNomeView() {
         return "VW_" + getNomeTabela();
     }
+    
+     public String getNomeColuna(final String key) {
+        return getPropriedades().stream()
+               .filter(propriedade -> propriedade.getNome().equals(key))
+                .findFirst().get().getColuna();
+    }
 }

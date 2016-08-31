@@ -10,18 +10,27 @@ public class Pessoa implements AbstractEntityId<Long>{
 
 // SELECT PESSOAS.ID AS ID,
 //        PESSOAS.NOME AS NOME,
-//        PESSOAS.SEXO AS SEXO,
+//		PESSOAS.SEXO AS SEXO,
 //        PESSOAS.CPF AS CPF,
 //        PESSOAS.RG AS RG,
 //        PESSOAS.DATA_NASCIMENTO AS DATA_NASCIMENTO,
 //        PESSOAS.TELEFONE_FIXO AS TELEFONE_FIXO,
 //        PESSOAS.TELEFONE_CELULAR AS TELEFONE_CELULAR,
 //        PESSOAS.EMAIL AS EMAIL,
-//		(SELECT PESSOAS_SITUACOES.SITUACAO
-//		   FROM PESSOAS_SITUACOES 
-//		  WHERE PESSOAS_SITUACOES.I_PESSOAS = PESSOAS.ID 
-//	   ORDER BY PESSOAS_SITUACOES.ID DESC 
-//	      LIMIT 1) AS SITUACAO_ATUAL
+//	  (SELECT PESSOAS_SITUACOES.SITUACAO
+//           FROM PESSOAS_SITUACOES 
+//	    WHERE PESSOAS_SITUACOES.I_PESSOAS = PESSOAS.ID 
+//       ORDER BY PESSOAS_SITUACOES.ID DESC 
+//          LIMIT 1) AS SITUACAO_ATUAL,
+//        CASE (SELECT PESSOAS_SITUACOES.SITUACAO
+//                FROM PESSOAS_SITUACOES 
+//               WHERE PESSOAS_SITUACOES.I_PESSOAS = PESSOAS.ID 
+//            ORDER BY PESSOAS_SITUACOES.ID DESC 
+//               LIMIT 1)
+//            WHEN 'C' THEN 'Cadastrada'
+//            WHEN 'R' THEN 'Relacionada'
+//            WHEN 'N' THEN 'Não Relacionada'
+//        END AS DESCRICAO_SITUACAO_ATUAL
 //   FROM PESSOAS;
     
     @Id
@@ -45,7 +54,9 @@ public class Pessoa implements AbstractEntityId<Long>{
     private String email;
     @Coluna(nome = "SITUACAO_ATUAL", insertable = false)
     private String situacaoAtual;
-
+    @Coluna(nome = "DESCRICAO_SITUACAO_ATUAL", insertable = false)
+    private String situacaoAtualDescricao;
+    
     public Pessoa() {
     }
 
@@ -129,4 +140,13 @@ public class Pessoa implements AbstractEntityId<Long>{
     public void setSituacaoAtual(String situacaoAtual) {
         this.situacaoAtual = situacaoAtual;
     }
+
+    public String getSituacaoAtualDescricao() {
+        return situacaoAtualDescricao;
+    }
+
+    public void setSituacaoAtualDescricao(String situacaoAtualDescricao) {
+        this.situacaoAtualDescricao = situacaoAtualDescricao;
+    }
+    
 }

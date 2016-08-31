@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AbstractDao<T> {
 
@@ -93,4 +94,10 @@ public class AbstractDao<T> {
         }
         return (T) newObject;
     }
+
+    public String getWhere(T t, Map<String, String> dados) throws IllegalArgumentException, IllegalAccessException {
+        final ElaboraSql elaboraSql = new ElaboraSql(ReflexaoObject.carregaPropriedadeColunas(t));
+        return elaboraSql.getWhere(dados);
+    }
+
 }
